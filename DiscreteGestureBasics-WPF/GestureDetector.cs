@@ -19,10 +19,7 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
     public class GestureDetector : IDisposable
     {
         /// <summary> Path to the gesture database that was trained with VGB </summary>
-        private readonly string gestureDatabase = @"C:\Projects\kinect\DiscreteGestureBasics-WPF\Database\OHF.gbd";
-
-        /// <summary> Name of the discrete gesture in the database that we want to track </summary>
-        private readonly string seatedGestureName = "Seated";
+        private readonly string gestureDatabase = @"C:\Projects\kinect\DDS\DiscreteGestureBasics-WPF\Database\OHF.gbd";
 
         /// <summary> Gesture frame source which should be tied to a body tracking ID </summary>
         private VisualGestureBuilderFrameSource vgbFrameSource = null;
@@ -33,6 +30,8 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         private Dictionary<string, DateTime> gestureTimestamps = new Dictionary<string, DateTime>();
 
         private string lastGestureIdentified = null;
+
+        public event EventHandler<GestureEventArgs> GestureDetected;
 
         /// <summary>
         /// Initializes a new instance of the GestureDetector class along with the gesture frame source and reader
@@ -193,6 +192,11 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
 
                                         if (lastGestureIdentified != gesture.Name && (DateTime.UtcNow - timestamp).TotalMilliseconds > 1000)
                                         {
+                                            if (this.GestureDetected != null)
+                                            {
+                                                this.GestureDetected(this, new GestureEventArgs() { Gesture = gesture.Name });
+                                            }
+
                                             Debug.WriteLine("=========== " + gesture.Name + " " + lastGestureIdentified  + " / " + timestamp + " ===========");
                                             timestamp = DateTime.UtcNow;
                                             if (timestampExists)
@@ -219,5 +223,10 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
             // update the GestureResultView object to show the 'Not Tracked' image in the UI
             this.GestureResultView.UpdateGestureResult(false, false, 0.0f);
         }
+    }
+
+    public class GestureEventArgs : EventArgs
+    {
+        public string Gesture { get; set; }
     }
 }

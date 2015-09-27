@@ -52,9 +52,6 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         {
             // only one sensor is currently supported
             this.kinectSensor = KinectSensor.GetDefault();
-            
-            // set IsAvailableChanged event notifier
-            this.kinectSensor.IsAvailableChanged += this.Sensor_IsAvailableChanged;
 
             // open the sensor
             this.kinectSensor.Open();
@@ -83,6 +80,8 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
             {
                 GestureResultView result = new GestureResultView(i, false, false, 0.0f);
                 GestureDetector detector = new GestureDetector(this.kinectSensor, result);
+
+                detector.GestureDetected += this.GestureDetected;
                 this.gestureDetectorList.Add(detector);
             }
         }
@@ -91,6 +90,21 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
         /// INotifyPropertyChangedPropertyChanged event to allow window controls to bind to changeable data
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void GestureDetected(object sender, GestureEventArgs e)
+        {
+            switch (e.Gesture)
+            {
+                case "BothHandsUp": { this.step1.Visibility = Visibility.Hidden; break; }
+                case "Schenkel_Right": { this.step2.Visibility = Visibility.Hidden; break; }
+                case "Schenkel_Left": { this.step3.Visibility = Visibility.Hidden; break; }
+                case "FussHintenDiagonal_Right": { this.step4.Visibility = Visibility.Hidden; break; }
+                case "FussVorneDiagonal_Left": { this.step5.Visibility = Visibility.Hidden; break; }
+                case "FussVorneDiagonal_Right": {
+                        this.step6.Visibility = Visibility.Hidden; break;
+                    }
+            }
+        }
 
         /// <summary>
         /// Execute shutdown tasks
@@ -121,22 +135,9 @@ namespace Microsoft.Samples.Kinect.DiscreteGestureBasics
 
             if (this.kinectSensor != null)
             {
-                this.kinectSensor.IsAvailableChanged -= this.Sensor_IsAvailableChanged;
                 this.kinectSensor.Close();
                 this.kinectSensor = null;
             }
-        }
-
-        /// <summary>
-        /// Handles the event when the sensor becomes unavailable (e.g. paused, closed, unplugged).
-        /// </summary>
-        /// <param name="sender">object sending the event</param>
-        /// <param name="e">event arguments</param>
-        private void Sensor_IsAvailableChanged(object sender, IsAvailableChangedEventArgs e)
-        {
-            // on failure, set the status text
-            this.StatusText = this.kinectSensor.IsAvailable ? Properties.Resources.RunningStatusText
-                                                            : Properties.Resources.SensorNotAvailableStatusText;
         }
 
         /// <summary>

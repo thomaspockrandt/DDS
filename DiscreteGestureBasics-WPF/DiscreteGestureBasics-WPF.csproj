@@ -138,15 +138,25 @@
   <ItemGroup>
     <Resource Include="Images\Kinect.ico" />
     <Resource Include="Images\Logo.png" />
-    <Resource Include="Images\Status.png" />
-    <Resource Include="Images\NotSeated.png" />
-    <Resource Include="Images\NotTracked.png" />
-    <Resource Include="Images\Seated.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Database\Seated.gbd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\cc.png" />
+    <Resource Include="Images\dc.png" />
+    <Resource Include="Images\fbl.png" />
+    <Resource Include="Images\fbr.png" />
+    <Resource Include="Images\fl.png" />
+    <Resource Include="Images\fr.png" />
+    <Resource Include="Images\kl.png" />
+    <Resource Include="Images\kr.png" />
+    <Resource Include="Images\sl.png" />
+    <Resource Include="Images\sr.png" />
+    <Resource Include="Images\tl.png" />
+    <Resource Include="Images\tr.png" />
+    <Resource Include="Images\ubl.png" />
+    <Resource Include="Images\ubr.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

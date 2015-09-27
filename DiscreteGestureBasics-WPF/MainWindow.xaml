@@ -3,16 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Microsoft.Samples.Kinect.DiscreteGestureBasics"
         Title="Discrete Gesture Basics"
-        Height="650" Width="750"
+        Height="906.958" Width="750"
         Closing="MainWindow_Closing">
 
     <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Center" Margin="25">
-        <Image x:Name="logo" Source="Images/Logo.png" Width="250" />
-        <Image x:Name="step1" Opacity="0.6" Source="Images/Status.png" Width="80" Height="80" />
-        <Image x:Name="step2" Opacity="0.6" Source="Images/Status.png" Width="80" Height="80" />
-        <Image x:Name="step3" Opacity="0.6" Source="Images/Status.png" Width="80" Height="80" />
-        <Image x:Name="step4" Opacity="0.6" Source="Images/Status.png" Width="80" Height="80" />
-        <Image x:Name="step5" Opacity="0.6" Source="Images/Status.png" Width="80" Height="80" />
-        <Image x:Name="step6" Opacity="0.6" Source="Images/Status.png" Width="80" Height="80" />
+        <Image x:Name="logo" Source="Images/Logo.png" Width="250" Margin="0, 0, 0, 20" />
+        <Image x:Name="step1" Opacity="0.6" Source="Images/dc.png" Width="80" Height="80" />
+        <Image x:Name="step2" Opacity="0.6" Source="Images/tr.png" Width="80" Height="80" />
+        <Image x:Name="step3" Opacity="0.6" Source="Images/tl.png" Width="80" Height="80" />
+        <Image x:Name="step4" Opacity="0.6" Source="Images/fbl.png" Width="80" Height="80" />
+        <Image x:Name="step5" Opacity="0.6" Source="Images/fr.png" Width="80" Height="80" />
+        <Image x:Name="step6" Opacity="0.6" Source="Images/fl.png" Width="80" Height="80" />
     </StackPanel>
 </Window>
