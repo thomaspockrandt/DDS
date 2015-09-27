@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+    </title>
+    <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <style type="text/css" media="screen">
+      #game {
+        width:  1024px;
+        height: 768px;
+        background-color: #F1F1F1;
+        position: relative;
+      }
+      
+      .arrow {
+        width:  140px;
+        height: 140px;
+        position: absolute;
+        top: 768px;
+      }
+      
+      .arrow-left {
+        left: 200px;
+      }
+      
+      .arrow-right {
+        right: 200px;
+      }
+      
+      .arrow img {
+        width:  140px;
+        height: 140px;
+      }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+      function spawn(name, position, delay){
+        var img = $('<img />');
+        img.addClass("arrow");
+        if(position == "l") {
+          img.addClass("arrow-left");
+        }
+        if(position == "r") {
+          img.addClass("arrow-right");
+        }
+        img.attr('src', name + position + ".png");
+        img.appendTo('#game');
+        img.delay(delay * 1000).animate({ top: "50px" }, { 
+          duration: 3000, 
+          easing:  'linear',
+          complete: function() {
+          $(this).hide();
+        } });
+      }
+      
+      $(function(){
+        spawn("fb", "l", 0.5);
+        spawn("fb", "r", 1.0);
+        spawn("t",  "l", 1.5);
+        spawn("fb", "r", 2.0);
+        spawn("s",  "l", 2.5);
+        spawn("fb", "r", 3.0);
+        spawn("fb", "r", 3.5);
+      });
+    </script>
+  </head>
+  <body>
+    
+    <div id="game">
+    </div>
+    
+  </body>
+</html>

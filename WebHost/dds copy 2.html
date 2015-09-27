@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+    </title>
+    <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <style type="text/css" media="screen">
+      #game {
+        width:  1024px;
+        height: 768px;
+        background-color: #F1F1F1;
+        background-color: #000000;
+        position: relative;
+      }
+      
+      #game-scroll {
+        width:    1024px;
+        position: absolute;
+        top:      0;
+        pointer-events: none;
+      }
+      
+      video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 1024px;
+        height: 768px;
+      }
+      
+      .arrow-left {
+        left: 40px;
+      }
+      
+      .arrow-right {
+        right: 40px;
+      }
+      
+      .arrow-center {
+        left: 412px;
+      }
+      
+      .arrow {
+        width:  200px;
+        height: 200px;
+        position: absolute;
+        top: 768px;
+      }
+      
+      .arrow img {
+        width:  200px;
+        height: 200px;
+      }
+      
+      .placeholder {
+        width:  200px;
+        height: 200px;
+        position: absolute;
+        top: 0px;
+        opacity: 0.7;
+      }
+      
+      .placeholder img {
+        width:  200px;
+        height: 200px;
+      }
+      
+      .placeholder-left {
+        left: 40px;
+      }
+      
+      .placeholder-right {
+        right: 40px;
+      }
+      
+      .placeholder-center {
+        left: 412px;
+      }
+      
+      .text {
+        width: 450px;
+        height: 220px;
+        position: absolute;
+        left: 287px;
+        top: 274px;
+      }
+      
+      .text-perfect {
+        background-image: url("perfect.png");
+        animation-name: perfect;
+        animation-duration: 0.5s;
+        opacity: 0.0;
+      }
+      
+      @keyframes perfect {
+        0% {
+          transform: scale3d(0.1, 0.1, 1);
+          opacity: 0.0;
+        }
+        40% {
+          transform: scale3d(2.0, 2.0, 1);
+        }
+        80% {
+          transform: scale3d(1.0, 1.0, 1);
+          opacity: 1.0;
+        }
+        95% {
+          transform: scale3d(1.0, 1.0, 1);
+          opacity: 1.0;
+        }
+        100% {
+          transform: scale3d(1.0, 1.0, 1);
+          opacity: 0.0;
+        }
+      }
+      
+    </style>
+    <script type="text/javascript" charset="utf-8">
+      var gameTime = 29;
+      
+      function spawn(name, position, time){
+        var div = $('<div><img /></div>');
+        div.addClass("arrow");
+        if(position == "l") {
+          div.addClass("arrow-left");
+        }
+        if(position == "r") {
+          div.addClass("arrow-right");
+        }
+        if(position == "c") {
+          div.addClass("arrow-center");
+        }
+        div.find("img").attr('src', name + position + ".png");
+        div.css({ top: (time * 768) + "px" })
+        div.appendTo('#game-scroll');
+        if(time > gameTime) {
+          gameTime = time;
+        }
+        
+        setTimeout(function(){ $(".text").removeClass("text-perfect"); }, (time * 1000) - 100);
+        setTimeout(function(){ $(".text").addClass("text-perfect"); }, (time * 1000) + 0);
+      }
+      
+      $(function(){
+        
+        setTimeout(function(){ 
+          spawn("s", "r", 1.0);
+          spawn("s", "r", 2.0);
+          spawn("s", "r", 3.0);
+          spawn("s", "l", 4.0);
+          spawn("s", "l", 5.0);
+          spawn("s", "l", 6.0);
+          spawn("s", "r", 7.0);
+          spawn("s", "r", 8.0);
+          spawn("s", "r", 9.0);
+          spawn("s", "l", 10.0);
+          spawn("s", "l", 11.0);
+          spawn("s", "l", 12.0);
+          spawn("d", "c", 27.0);
+          spawn("d", "c", 28.0);
+          spawn("d", "c", 29.0);
+          
+          $("#game-scroll").css({ height: (gameTime * 768) + "px" });
+          
+          $("video")[0].play();
+          $("#game-scroll").animate({ top: (0 - (gameTime * 768) + 768) + "px" }, { duration: gameTime * 1000, easing: "linear" });
+        }, 500);
+        
+      });
+    </script>
+  </head>
+  <body>
+    
+    <div id="game">
+      <video src="testvideo.mov" controls="controls">
+      </video>
+      
+      <div class="placeholder placeholder-left"><img src="pl.png" /></div>
+      <div class="placeholder placeholder-center"><img src="pc.png" /></div>
+      <div class="placeholder placeholder-right"><img src="pr.png" /></div>
+      
+      <div class="text"></div>
+      
+      <div id="game-scroll">
+      </div>
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html><html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"><title>
+    </title>
+    <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <style type="text/css" media="screen">
+      #game {
+        width:  1024px;
+        height: 768px;
+        background-color: #F1F1F1;
+        background-color: #000000;
+        position: relative;
+      }
+      
+      #game-scroll {
+        width:    1024px;
+        position: absolute;
+        top:      0;
+        pointer-events: none;
+      }
+      
+      video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 1024px;
+        height: 768px;
+      }
+      
+      .arrow-left {
+        left: 40px;
+      }
+      
+      .arrow-right {
+        right: 40px;
+      }
+      
+      .arrow-center {
+        left: 412px;
+      }
+      
+      .arrow {
+        width:  200px;
+        height: 200px;
+        position: absolute;
+        top: 768px;
+      }
+      
+      .arrow img {
+        width:  200px;
+        height: 200px;
+      }
+      
+      .placeholder {
+        width:  200px;
+        height: 200px;
+        position: absolute;
+        top: 0px;
+        opacity: 0.7;
+      }
+      
+      .placeholder img {
+        width:  200px;
+        height: 200px;
+      }
+      
+      .placeholder-left {
+        left: 40px;
+      }
+      
+      .placeholder-right {
+        right: 40px;
+      }
+      
+      .placeholder-center {
+        left: 412px;
+      }
+      
+      .text {
+        width: 450px;
+        height: 220px;
+        position: absolute;
+        left: 287px;
+        top: 274px;
+      }
+      
+      .text-perfect {
+        background-image: url("perfect.png");
+        animation-name: perfect;
+        animation-duration: 0.5s;
+        opacity: 0.0;
+      }
+      
+      @keyframes perfect {
+        0% {
+          transform: scale3d(0.1, 0.1, 1);
+          opacity: 0.0;
+        }
+        40% {
+          transform: scale3d(2.0, 2.0, 1);
+        }
+        80% {
+          transform: scale3d(1.0, 1.0, 1);
+          opacity: 1.0;
+        }
+        95% {
+          transform: scale3d(1.0, 1.0, 1);
+          opacity: 1.0;
+        }
+        100% {
+          transform: scale3d(1.0, 1.0, 1);
+          opacity: 0.0;
+        }
+      }
+      
+    </style>
+    <script type="text/javascript" charset="utf-8">
+      
+      function spawn(position, direction, time) {
+        return [position, direction, time];
+      }
+      
+      var gameData = [
+        spawn("s", "r", 5.23),
+        spawn("s", "r", 6.86),
+        spawn("s", "r", 8.56),
+        spawn("s", "l", 8.76),
+        spawn("s", "r", 9.13),
+        spawn("s", "l", 9.33),
+        spawn("s", "r", 9.60),
+        spawn("s", "l", 9.90),
+        spawn("s", "r", 10.20),
+
+        spawn("t", "l", 10.7),
+        spawn("t", "r", 11.3),
+        spawn("fb", "l", 11.86),
+        spawn("f", "r", 12.43), // FIXME: schlag auf seite
+        spawn("f", "l", 12.66),
+        spawn("f", "l", 12.96),
+        spawn("t", "l", 13.26),
+        spawn("f", "r", 13.56), // FIXME: schlag auf seite
+        spawn("t", "r", 14.16),
+        spawn("t", "l", 14.40), // FIXME: andere hand
+        spawn("f", "r", 14.70), // FIXME: schlag auf seite
+        spawn("t", "r", 14.96), // FIXME: andere hand
+        spawn("fb", "l", 15.26),
+        spawn("f", "r", 15.83), // FIXME: schlag auf seite
+        spawn("t", "l", 16.10),
+        spawn("f", "l", 16.40),
+        spawn("t", "l", 16.66),
+        spawn("t", "r", 17.00), // FIXME: schlag auf seite
+        spawn("t", "r", 17.60),
+        spawn("t", "r", 17.68), // FIXME: andere hand
+        spawn("t", "r", 18.16),
+        spawn("t", "r", 17.60),
+        spawn("t", "r", 18.40), // FIXME: andere hand
+        spawn("fb", "l", 18.70),
+        spawn("t", "r", 18.40), // FIXME: andere hand
+        spawn("t", "r", 19.30), // FIXME: schlag auf seite
+        spawn("t", "l", 19.56), // FIXME: schlag auf seite
+        spawn("f", "l", 19.83),
+        spawn("t", "l", 20.10),
+        spawn("t", "r", 20.43), // FIXME: schlag auf seite
+        spawn("t", "r", 21.00),
+        spawn("t", "r", 21.23), // FIXME: andere hand
+        spawn("t", "r", 21.53),
+        spawn("t", "r", 21.83), // FIXME: andere hand
+        spawn("fb", "l", 22.10),
+        spawn("t", "r", 22.70), // FIXME: andere hand
+        spawn("t", "l", 22.96),
+        spawn("f", "l", 23.26),
+        spawn("t", "r", 23.53),
+        spawn("t", "r", 23.86), // FIXME: schlag auf seite
+        spawn("t", "r", 24.43),
+        spawn("t", "r", 24.66), // FIXME: andere hand
+        spawn("t", "r", 24.96),
+        spawn("t", "r", 25.26), // FIXME: andere hand
+        spawn("fb", "l", 25.53),
+        spawn("t", "r", 26.13), // FIXME: schlag auf seite
+        spawn("t", "l", 26.40),
+        spawn("f", "l", 26.66),
+        spawn("t", "l", 26.93),
+        spawn("t", "r", 27.26), // FIXME: schlag auf seite
+        spawn("t", "r", 27.80), // FIXME: schlag auf seite
+        spawn("t", "r", 28.10), // FIXME: andere hand
+        spawn("t", "r", 28.36),
+        spawn("t", "r", 28.60), // FIXME: andere hand
+        spawn("fb", "l", 28.93),
+        spawn("t", "r", 29.64), // FIXME: schlag auf seite
+        spawn("t", "l", 29.70),
+        spawn("f", "l", 30.03),
+        spawn("t", "l", 30.30),
+        spawn("s", "l", 30.57),
+        spawn("s", "r", 30.57)
+      ];
+      
+      $(function() {
+        var videoLength = 0;
+        var pixelPerSecond = 768;
+        
+        var video = $("video");
+        video.on('loadedmetadata', function() {
+          videoLength = video[0].duration;
+          $("#game-scroll").css({ height: videoLength * 768 + "px" });
+          gameScrollHeight = $("#game-scroll").height();
+          $(gameData).each(function(index, element) {
+            var name      = element[0];
+            var position  = element[1];
+            var time      = element[2];
+            var div = $('<div class="arrow"><img /></div>');
+            if(position == "l") { div.addClass("arrow-left"); }
+            if(position == "r") { div.addClass("arrow-right"); }
+            if(position == "c") { div.addClass("arrow-center"); }
+            div.find("img").attr('src', name + position + ".png");
+            div.css({ top: (time * pixelPerSecond) + "px" })
+            div.appendTo('#game-scroll');
+          });
+          
+          video[0].play();
+          
+          video.on('timeupdate', function() {
+            var remainingTime = videoLength - video[0].currentTime
+            console.log(remainingTime);
+            // $('#game-scroll').clearQueue().stop().animate({ top: 0 - ((gameScrollHeight / videoLength) * video[0].currentTime) + "px" }, { easing: "linear", duration: remainingTime * 1000 });
+            $('#game-scroll').stop(true);
+            $('#game-scroll').animate({ top: 0 - (gameScrollHeight) + "px" }, { easing: "linear", duration: remainingTime * 1000 });
+          });
+          
+        });
+      });
+      
+    </script>
+  </head>
+  <body>
+    
+    <div id="game">
+      <video src="video.mp4" controls="controls">
+      </video>
+      
+      <div class="placeholder placeholder-left"><img src="pl.png" /></div>
+      <div class="placeholder placeholder-center"><img src="pc.png" /></div>
+      <div class="placeholder placeholder-right"><img src="pr.png" /></div>
+      
+      <div class="text"></div>
+      
+      <div id="game-scroll">
+      </div>
+    </div>
+    
+  </body>
+</html>
